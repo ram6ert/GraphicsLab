@@ -41,7 +41,7 @@ void main() {
     while(i < 500 && photonPos.z > surfaceDepth) {
         float R = max(length(photonPos - blackholePos), 0.01f);
         float step = clamp(0.1f, R * 0.1f, 2.0f);
-        vec3 acc = (1.0f / (R * R)) * normalize(blackholePos - photonPos);
+        vec3 acc = (1E-1f / (R * R)) * normalize(blackholePos - photonPos);
         velocity += acc * step;
         photonPos += velocity * step;
         if(length(photonPos - blackholePos) < 0.2f) {
@@ -54,7 +54,7 @@ void main() {
     if(photonPos.z > surfaceDepth) {
         discard;
     }
-    vec2 index = photonPos.xy;
+    vec2 index = photonPos.xy - (surfaceDepth - photonPos.z) * velocity.xy;
     int color = int(floor(index.x) + floor(index.y)) % 2;
     if(color == 0) {
         FragColor = vec4(1.0, 0.0, 0.0f, 1.0f);
