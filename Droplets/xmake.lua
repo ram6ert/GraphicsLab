@@ -1,0 +1,5 @@
+add_requires("glfw", "glew", "glm")
+target("droplets")
+set_kind("binary")
+add_files("./*.cpp")
+add_packages("glfw", "glew", "glm")
