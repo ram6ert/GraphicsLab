@@ -38,13 +38,13 @@ void main() {
     vec3 rayDirection = normalize(photonPos - eye);
     vec3 velocity = rayDirection * 1.0f;
     int i = 0;
-    while(i < 100 && photonPos.z > surfaceDepth) {
+    while(i < 500 && photonPos.z > surfaceDepth) {
         float R = max(length(photonPos - blackholePos), 0.01f);
-        float step = 0.1f;
+        float step = clamp(0.1f, R * 0.1f, 2.0f);
         vec3 acc = (1.0f / (R * R)) * normalize(blackholePos - photonPos);
         velocity += acc * step;
-        photonPos += velocity;
-        if(length(photonPos - blackholePos) < 1.0f) {
+        photonPos += velocity * step;
+        if(length(photonPos - blackholePos) < 0.2f) {
             discard;
         }
         ++i;
